@@ -1,0 +1,147 @@
+td{
+    border: 1px solid black;
+}
+
+tr{
+    border: 1px solid black;
+}
+
+.content{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    width: 14rem;
+    margin-top: 13rem;
+}
+
+.box{
+    width: 100px;
+    height: 100px;
+    border: 1px solid black;
+}
+
+.redStone{
+    background-color: red;
+    width: 100px;
+    height: 82px;
+}
+
+.output{
+    width: 4rem;
+    height: 1rem;
+}
+
+#map{
+    height: 100%;
+}
+
+.title{
+    width: 100%;
+    background-color: #ccc;
+    font-size: .8rem;
+}
+
+.acc{
+   padding: 1rem .6rem;
+   border: 1px solid black;
+   width: 100%;
+   display: none;
+}
+
+.active{
+    display: block;
+}
+
+.colorBox{
+    background: white;
+    width: 100px;
+    height: 100px;
+    border: 1px solid black;
+}
+
+.btns{
+    display: inline-block;
+}
+
+.btn{
+    padding: .2rem .4rem;
+    display: inline-block;
+    border: 1px solid black;
+    width: 2.5rem;
+    text-align: center;
+}
+
+.btn_red{
+    background-color: red;
+}
+
+.btn_green{
+    background-color: green;
+}
+
+.btn_blue{
+    background-color: blue;
+}
+
+.btn_yellow{
+    background-color: yellow;
+}
+
+.gbtn{
+    height: 4rem;
+    width: 2.5rem;
+}
+
+#canvas1,#canvas2,#canvas3{
+    border: 1px solid black;
+}
+
+#clr_red{
+    background-color: red;
+}
+
+
+#clr_blue{
+    background-color: blue;
+}
+
+
+#clr_yellow{
+    background-color: yellow;
+}
+
+
+#clr_green{
+    background-color: green;
+}
+
+.clr_box{
+    width: 3rem;
+    height: 1.2rem;
+    border: 3px solid grey;
+    display: inline-block;  
+    cursor: pointer;
+}
+
+.active{
+    color: green;
+    cursor: pointer;
+}
+
+.inactive{
+    color: grey;
+    cursor: pointer;
+}
+
+li{
+    font-size: 2rem;
+    display: inherit;
+    flex-direction : row;
+    width: 18rem;
+    justify-content: space-between;
+}
+
+ul{
+    display: flex;
+    flex-direction: column;
+}

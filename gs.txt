@@ -1,0 +1,94 @@
+=> Garbage Collection Algos:
+- TriColor Algorithm: 
+Optimizations: -> Optimise (optimise the actual algorithm)
+               -> Concurrency
+               -> Incremental (break tasks into pieces)
+Optimizing the process:
+- Generational Hypotheses: 
+    If the object survives particular time, then it is expected to survive more.
+    Old objects tends to stay around, new objects tends to die quickly.
+    Algo: 
+        We have two regions, one is for young & other one is for old. 
+        here region refers to small independent heap.
+        Young region have parts called Eden (newly alocated memory), survivor 1 & survivor 2. When new objects are allocated & some of them die quickly, survivors will be put in survivor 1 & will be scnned with previosly survived objects.
+        After some time these survivors will move to survivor 2. On Each scanning iteration survivor 1 & 2 objects gets scanned & which survive for longer time gets moved to old region after a specific period of time.
+
+        Problem: What if objects in old region points to objects in young region.
+        Sol.: Whenever old object points to object in young region, mark that part as dirty (Card table is used for this) & those objects in young region as alive.
+        Basically, old objects keep young generational objects alive, which is called Nepotism in GC.
+
+    - Generational Hypothese does not work with cache.
+
+    - Shenandoah
+Major Problem with GC algos: 
+    OS allocates time to application & GC. but when gc pause & application run, it can create new pointer, but while running gc we have marked some objects black. These are the objects which will not processed again because they have some reference so we does not have to collect thier memory but now application created new pointer from these black nodes & after some time when gc run again, black nodes will not be processed again so newly created nodes which are pointing to black nodes will be ignored & because by default they are marked as white & does not get changed into gray, they will be collected when gc runs next time.
+    to solve this problem JIT compilers use write barriers.JIT put a piece of code between application code which we require for garbage collction.
+    When application create a new node pointing to black node, write barrier can mark this newly created node as gray, so this will not be collected by gc.
+
+- When GC free memory, these memory blocks are small & very far from each other, so new object might not fit in these small chunks of memory. So best thing to do here is to compress all these small blocks of memory in one big block.
+But for that write operation is needed & when write operation is running application cannot run coz it might change state of the memory.
+But we cannot pause application for this long.
+To solve this problem concurrent compression is used.
+
+Garbage collections: 
+- A serial collector: Basic garbage collector that runs in single thread, can be used for basic applications.
+- A concurrent collector: A thread that performs GC along with application execution as the application runs, does not wait for the old generation to be full - Stops the world only during mark/remark.
+- A parallel collector: Uses multiple CPUs to perform GC. Multiple threads doing mark/sweep etc. Does not kick in until heap is full/near-full. "stop-the-world" when it runs.
+
+G1GC (garbage first garbage collector) Algorithm: 
+    the likelyhood of an object is picked up for garbage collection is dependent on the live objects it has.
+
+    gc_priority = 1 / ref_count
+    - data structured used for this is called Remembered Set.
+    like card table, we have remembered set. Remember set have list of nodes which are pointing from other regions into it. So it has list of incoming pointers to that region.
+    - G1GC divides the total heap into homogenous regions that are logically combined into the traditional heaps Eden, Survivor and Tenured.
+
+=> GC in javascript: (Orinoco)
+When GC Triggers: The heap starts small. V8 grow the total size & try to estimate the sweet spot.
+There are two garbage collectors in V8. The Major GC (Mark-Compact) collects garbage from the whole heap. The Minor GC (Scavenger) collects garbage in the young generation.
+- Major GC (Full Mark-Compact): The major gc collects garbage from teh entire heap.
+    phases of major GC: marking, sweeping & compacting.
+    The heap in V8 is split into different regions called generations. There is a young generation (split further into ‘nursery’ and ‘intermediate’ sub-generations), and an old generation. 
+- Minor GC (Scavenger):
+During a scavenge, this initially-empty area is called ‘To-Space’. The area we copy from is called ‘From-Space’.
+write barriers are used in this for old-to-new references.
+
+// Called after `object.field = value`.
+write_barrier(object, field_offset, value) {
+  if (color(object) == black && color(value) == white) {
+    set_color(value, grey);
+    marking_worklist.push(value);
+  }
+}
+
+The evacuation step moves all surviving objects to a contiguous chunk of memory (within a page). This has the advantage of completing removing fragmentation - gaps left by dead objects. We then switch around the two spaces i.e. To-Space becomes From-Space and vice-versa. Once GC is completed, new allocations happen at the next free address in the From-Space.
+
+Scavenger phases: marking, evacuating, and pointer-updating — all interleaved, rather than in distinct phases.
+
+- Parallel is where the main thread and helper threads do a roughly equal amount of work at the same time.
+- Incremental is where the main thread does a small amount of work intermittently.
+- Concurrent is when the main thread executes JavaScript constantly, and helper threads do GC work totally in the background.
+
+- The data race caused by a write to an object field is resolved by turning the write operation into a relaxed atomic write and tweaking the write barrier:
+
+```
+// Called after atomic_relaxed_write(&object.field, value);
+write_barrier(object, field_offset, value) {
+  if (color(value) == white && atomic_color_transition(value, white, grey)) {
+    marking_worklist.push(value);
+  }
+}
+```
+
+Without the source object color check the write barrier becomes more conservative, i.e. it may mark objects as live even if those objects are not really reachable. We removed the check to avoid an expensive memory fence that would be needed between the write operation and the write barrier:
+
+```
+atomic_relaxed_write(&object.field, value);
+memory_fence();
+write_barrier(object, field_offset, value);
+```
+
+Without the memory fence the object color load operation can be reordered before the write operation. If we don’t prevent the reordering, then the write barrier may observe grey object color and bail out, while a worker thread marks the object without seeing the new value. The original write barrier proposed by Dijkstra et al. also does not check the object color. They did it for simplicity, but we need it for correctness.
+
+- Oilpan:  Oilpan is a garbage collector written in C++ for managing C++ memory that can be connected to V8 using cross-component tracing that treats the tangled C++/JavaScript object graph as one heap.
+Oilpan implements a Mark-Sweep garbage collector.

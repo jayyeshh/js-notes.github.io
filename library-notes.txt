@@ -1,0 +1,83 @@
+tech to look in:
+- algolia
+- elastic search 
+- typesense.org
+
+
+talks:
+https://www.youtube.com/watch?t=1118&v=ujMgQqp8YSY&feature=youtu.be
+https://www.youtube.com/watch?v=zQuIjwcEPv8
+
+go through resources: 
+- https://openlibrary.org/developers/dumps
+- https://www.librarything.com/
+- https://news.ycombinator.com/item?id=25414389
+- https://digital.library.unt.edu/ark:/67531/metadc36305/
+- https://github.com/fredericd/coce
+- https://thebestbookon.com/
+- https://github.com/Open-Book-Genome-Project/TheBestBookOn.com
+- https://source.opennews.org/articles/introducing-tabula/
+- https://github.com/sergiomsilva/alpr-unconstrained/blob/master/README.md
+- imagemagick and ffmpeg
+- https://ffmpeg.org/ffmpeg-all.html#ocr
+- https://pastemagic.com/
+- wikis: 
+    - https://www.britannica.com/
+    - https://en.citizendium.org/
+    - http://www.scholarpedia.org/article/Main_Page
+- https://github.com/internetarchive/openlibrary
+- https://news.ycombinator.com/item?id=24454221
+- Netflix Recommendation System.
+- Ted Book Club
+
+ideas:
+- a web crawler which search books in pdf form & if they are available then download them & added to database in specific category.
+- wikipedia API ( https://www.mediawiki.org/wiki/API:Main_page, https://www.mediawiki.org/wiki/Wikimedia_REST_API)
+- Search book by isbn number: 
+    - https://www.labnol.org/code/20020-query-book-by-isbn#:~:text=The%20Google%20Books%20API%20can,fetch%20using%20Google%20Apps%20Script.
+    - Neural network to get book details: 
+        https://faculty.ist.psu.edu/zzhou/paper/JCDL17-SmartLibrary.pdf
+    - https://serratus.github.io/quaggaJS/
+    - dewarp fix: 
+        https://mzucker.github.io/2016/08/15/page-dewarping.html
+        https://github.com/DanBloomberg/leptonica
+    - https://developers.google.com/vision/android/barcodes-overview
+    - https://cloud.google.com/vision/docs/ocr
+    - http://isbndb.com/
+- Summary of the book.
+- audio book version.
+- Integrated Social Network ( Goodreads )
+- how many pages(or %) have you read of specific book.
+
+//notes:
+=> ISBN: (International standard book number)
+Each ISBN consists of 5 elements with each section being separated by spaces or hyphens. Three of the five elements may be of varying length:
+
+Prefix element – currently this can only be either 978 or 979. It is always 3 digits in length
+Registration group element – this identifies the particular country, geographical region, or language area participating in the ISBN system. This element may be between 1 and 5 digits in length
+Registrant element - this identifies the particular publisher or imprint. This may be up to 7 digits in length
+Publication element – this identifies the particular edition and format of a specific title. This may be up to 6 digits in length
+Check digit – this is always the final single digit that mathematically validates the rest of the number. It is calculated using a Modulus 10 system with alternate weights of 1 and 3.
+
+
+extras:
+- https://source.opennews.org/
+- words: consortium
+- International Internet Preservation Consortium
+
+
+unseen: 
+- https://www.k12irc.org/tools/virtual/creating/example.php
+- https://www.theiet.org/publishing/library-archives/the-virtual-library/
+- https://link.springer.com/article/10.1007/BF02941037
+- https://webarchive.jira.com/wiki/spaces/Heritrix/overview
+- https://faculty.ist.psu.edu/zzhou/paper/JCDL17-SmartLibrary.pdf
+- https://www.researchgate.net/publication/287196620_Concept_of_Hybrid_Digital_and_Virtual_Library_A_Professional_Approach
+- http://www.netugc.com/virtual-library
+- http://doi-ds.org/About-The-Virtual-Library/
+- https://www.virtuallibrary.info/
+- https://www.igi-global.com/dictionary/virtual-library/31714#:~:text=A%20Virtual%20Library%20is%20a,Present%20Era%3A%20Challenges%20and%20Issues
+- https://news.ycombinator.com/item?id=13375369
+- https://news.ycombinator.com/item?id=19391180
+- https://news.ycombinator.com/item?id=24649798
+- https://news.ycombinator.com/item?id=19392845

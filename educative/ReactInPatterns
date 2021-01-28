@@ -1,0 +1,258 @@
+extras:
+- https://www.quora.com/What-is-the-best-way-to-learn-game-theory
+- https://kentcdodds.com/
+
+- Title.PropTypes={
+    text: PropsTypes.string
+};
+
+- ClockContainer.propTypes = {
+    time: PropTypes.object.isRequired
+  };
+
+- Title.defaultProps={
+    text: 'Some default meaningful value'
+};
+- props.children property gives access to the child components of passed component.
+<Title text="some text">
+    <span>child component</span>
+</Title>
+- once functions are passed to an attribute, they do not keep context, so `bind` is used so that we have access to `this` inside the function.
+- children API.
+- Higher Order Component:
+```
+var config = require('path/to/configuration');
+
+var enhanceComponent = (Component) =>
+  class Enhance extends React.Component {
+    render() {
+      return (
+        <Component
+          {...this.props}
+          title={ config.appTitle }
+        />
+      )
+    }
+  };
+
+var OriginalTitle  = ({ title }) => <h1>{ title }</h1>;
+var EnhancedTitle = enhanceComponent(OriginalTitle);
+```
+
+```
+var enhanceComponent = (Component) =>
+  class Enhance extends React.Component {
+    constructor(props) {
+      super(props);
+
+      this.state = { remoteTitle: null };
+    }
+    componentDidMount() {
+      fetchRemoteData('path/to/endpoint').then(data => {
+        this.setState({ remoteTitle: data.title });
+      });
+    }
+    render() {
+      return (
+        <Component
+          {...this.props}
+          title={ config.appTitle }
+          remoteTitle={ this.state.remoteTitle }
+        />
+      )
+    }
+  };
+
+var OriginalTitle  = ({ title, remoteTitle }) =>
+  <h1>{ title }{ remoteTitle }</h1>;
+var EnhancedTitle = enhanceComponent(OriginalTitle);
+```
+
+- The actual creation of the higher-order component should happen at a component definition level, it’s a bad practice to do it inside another React component because it may be slow and lead to performance issues.
+
+- children prop can be JSX expression as well.
+```
+import React, { Component } from 'react';
+
+
+function UserName({ children }) {
+  return (
+    <div>
+      <b>{ children.lastName }</b>,
+      { children.firstName }
+    </div>
+  );
+}
+
+
+export default class App extends React.Component {
+   render() {
+  const user = {
+    firstName: 'Krasimir',
+    lastName: 'Tsonev'
+  };
+  return (
+    <UserName>{ user }</UserName>
+  );
+  }
+}
+```
+
+
+```
+./todolist.js:
+
+import React from 'react';
+
+function TodoList({ todos, children }) {
+  return (
+    <section className='main-section'>
+      <ul className='todo-list'>{
+        todos.map((todo, i) => (
+          <li key={ i }>{ children(todo) }</li>
+        ))
+      }</ul>
+    </section>
+  );
+}
+
+export default TodoList;
+
+
+./app.js:
+
+import React from 'react';
+import TodoList from './todolist.js';
+
+export default class App extends React.Component {
+render(){
+  const todos = [
+    { label: 'Write tests', status: 'done' },
+    { label: 'Sent report', status: 'progress' },
+    { label: 'Answer emails', status: 'done' }
+  ];
+  
+  const isCompleted = todo => todo.status === 'done';
+  return (
+    <TodoList todos={ todos }>
+      {
+         todo => isCompleted(todo) ?
+          <b>{ todo.label }</b> :
+          todo.label
+      }
+    </TodoList>
+  );
+ }
+}
+```
+
+- Patterns discussed so far: functions as children & render props.
+Advantage of the functions as children pattern: 
+    Abstraction in the children components, they don't need to know all teh details of the objects.
+
+- render prop pattern:
+```
+function TodoList({ todos, render }) {
+  return (
+    <section className='main-section'>
+      <ul className='todo-list'>{
+        todos.map((todo, i) => (
+          <li key={ i }>{ render(todo) }</li>
+        ))
+      }</ul>
+    </section>
+  );
+}
+
+return (
+  <TodoList
+    todos={ todos }
+    render={
+      todo => isCompleted(todo) ?
+        <b>{ todo.label }</b> : todo.label
+    } />
+);
+```
+
+Another example: 
+```
+<Authorize
+  permissionsInclude={[ 'read:products' ]}
+  render={ () => <ProductsList /> } 
+/>
+```
+
+//we can use ref to get access to dom element.for ex:
+```
+
+  render() {
+    return (
+      <input
+        type='text'
+        defaultValue={ this.state.value }
+        onChange={ this._change }
+        ref={ input => this.input = input }/>
+    );
+  }
+  _handleInputChange() {
+    this.setState({ value: this.input.value });
+  }
+```
+
+- Split the component in containers and presenteation.
+
+=> Redux:
+- Once created, the store has four methods - getState, dispatch, subscribe and replaceReducer.
+
+- There are two characteristics of the reducer that are quite important and without them we basically have a broken pattern.
+
+1. It must be a pure function - it means that the function should return the exact same output every time, given the same input.
+
+2. It should have no side effects - stuff like accessing a global variable, making an async call or waiting for a promise to resolve have no place in here.
+
+- react-redux: <Provider> & connect;
+connect(
+    [mapStateToProps],
+    [mapDispatchToProps],
+    [mergeProps],
+    [options]
+);
+
+```
+function Counter({ value, add, subtract }) {
+  return (
+    <div>
+      <p>Value: { value }</p>
+      <button onClick={ add }>Add</button>
+      <button onClick={ subtract }>Subtract</button>
+    </div>
+  );
+}
+
+const CounterConnected = connect(
+  state => ({
+    value: getCounterValue(state)
+  }),
+  dispatch => ({
+    add: () => dispatch(add()),
+    subtract: () => dispatch(subtract())
+  })
+)(Counter);
+```
+
+- mergeProps combines both mapStateToProps & mapDispatchToProps.
+- options accepts couple of settings that control how the connection works.
+
+- combineReducers
+
+
+=> Advanced React Patterns with hooks:
+
+- Compound Component: A component composed of two or more components where the child components cannot be used without the parent component
+
+- useLayoutEffect vs useEffect: 
+The function passed to useEffect fires after layout and paint, after the render has been committed to the screen.
+The Function passed to useLayoutEffect will be run before the browser updates the screen.
+
+- useCallback vs useMemo:
+useCallback and useMemo both expect a function and an array of dependencies. The difference is that useCallback returns its function when the dependencies change while useMemo calls its function and returns the result.1

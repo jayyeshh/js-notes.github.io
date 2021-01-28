@@ -1,0 +1,333 @@
+//Course 1 Notes:
+//Pending:
+all the quizies.
+Create guessing Game.
+callback functions.
+deck of cards.
+gameplay.
+dynamic list Editor.
+hit the computer.
+shopping card.
+create Quiz.
+Iterators & Generators.
+327
+
+//JS
+javascript is not a programming not, it is actually a script language.
+because it uses the browser to do the work.
+- adding inline, internal & external javascript.
+- document.write
+- prompt
+- console.error();
+- console.warn();
+- console.dir();
+- inline css with console.
+console.log("%cHello","color: yellow;background: black")
+- primitive data types:
+  strings, numbers, boolean
+- To convert string to number: Number(string)
+- Arithmetic Operator +,-,*,/,%
+- Comparision Operator ==, ===, !=, !==, <, >, <=, >=, ternary ?:
+- Logical Operator &&, ||, !
+
+Array is an special type of object.
+ex: arr=[1,2,"abc"]
+Methods: Array.isArray(arr), arr.length, arr.push("def"), arr.pop(), arr.shift(), arr.unshift(), arr.slice(), arr.splice(startPos, count), arr.fill(val, startPos, endPos), arr.reverse(), arr.sort(), arr.indexOf("abc");
+- https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array
+- Math.floor(Math.random()*10)+1
+
+Objects:
+- Objects inside array & vice-versa
+
+
+//String
+- startsWith, endsWith, includes (with length)
+- repeat, charAt(pos), toUpperCase(), toLowerCase(), split(), join()
+- replace(curr, tobeupdatedwith), substring(start, end), substr(start,end), str1.concat(str2), str.indexOf('..'), str.lastIndexOf('..'), slice(startIndex, count), 
+
+=> The substr() method extracts parts of a string, beginning at the character at the specified position, and returns the specified number of characters. The substring() method returns the part of the string between the start and end indexes, or to the end of the string.
+
+String Tempalte Literals ``
+
+String methods: typeof, length, toFixed(), substitution (${}), str1.localeCompare(str2)
+- template leterals inside Substitution.
+
+Hoisting - Its javascript's behaviour which moves all the declarations
+  to the top the current scope, will not be initialized, just
+  declarations will be moved.
+- Using a let variable before it is declared will result in a ReferenceError.
+var - global declaration
+let - limit the scope to current block/function.
+const - prevent reassignment
+constant prevent modification of the binding & not
+not modification of the bound value.
+ex: const person={ name: "John" };
+   person.name="Wick";
+   wrong=> person={ name: "new name" };
+- document, document.doctype, document.title, document.write.
+- innerHTML, innerText
+- switch case
+Loops: 
+- do while, while, for, nested loops.
+- break & continue;
+for(value of array) console.log(value);
+- to iterate over object: 
+for(key in obj) console.log(key,"&&",obj[key]);
+
+Functions:
+- setting default value for arguments.
+- Anonymous function
+
+IIFE (Immediately Invokable Function Expression) or self executing function: 
+(function(){
+	console.log('lumos');
+})();
+
+- benifit of self executing function: everything declared inside it get destroyed as soon as function ends. So because of this scope boundation self executing function execute & before exit destroy all the variables declared inside it. You don't have to hold these value anymore & no conflicts also.
+- if a variable is not declared & directly initialized then it will become global even if it is inside a function.
+
+- Function inside Function.
+- Callbacks
+
+//Interactive Content:
+=> window is main root, then comes window.screen or screen which have limited properties like screen dimentions & other related property. & we also have window.document or just document.
+- window.open('file.html'), window.innerHeight, window.innerHeight, window.history.go(-1), window.location=url, 
+
+-document.body.children[]
+
+let myTimer=window.setTimeout(runThisFunction, delay); //function will run after delay time.
+window.clearInterval(myTimer); //clear the current delays.
+-setInterval(func, delay);
+
+- setTimeout executes once after a specified interval, while setInterval calls a function repeatedly, with a fixed time delay between each call to that function.
+//Window Object Methods:
+- prompt(), print(), alert()
+
+navigator.useragent;
+
+- this
+
+//event handler
+document.getElementById('id').onclick=myFunc;
+
+now myfunc have access to 'this';
+
+Events: onload, onsubmit, onmouseover, onmouseout, onclick, onchange, onblur, onkeypress, onpaste="return true/false", ondrop, ondragstart, ondragover, draggable=true/false, select
+- input.focus()
+
+-select event listener have selectionStart & selectionEnd inside event.target.
+- key event can return true/false.
+
+- If using external js file, more than 1 mouse event cannot be used. it'll overwrite previous event. use it as inline in html tag.
+
+- event.key, event.value;
+- event.key is not present in onchange, it is only available with onkeypress.
+-isNaN("abc");
+
+//Randomize an array/shuffling: 
+arr.sort(function(a,b){
+	return 0.5-Math.random();
+})
+
+- this.parentNode.removeChild(child);
+
+//traversal of DOM:
+- document.body.children.myForm.childNode[9].children.four;
+- nextElementSibling, previousElementSibling, parentElement, firstChild, firstElementChild, lastChild, lastElementChild, createTextNode, createAttribute, createElement.
+
+//Selectors
+- document.querySelector('input[name="nameofelement"]');
+- querySelectorAll();
+
+- this.classList: .contains, .add, .remove, 
+  ex: elem[0].classList["remove"]("active");
+- elem.setAttribute("style","color: red;");
+- elem.removeAttribute("style");
+
+- The closest() method traverses the Element and its parents (heading toward the document root) until it finds a node that matches the provided selector string. Will return itself or the matching ancestor. If no such element exists, it returns null.
+	this.closest('[attribute]').getAttribute('attribute');
+	elem.closest("#div-02");
+
+- bubbling of events: 
+  elem.addEventListener('click',bup,true);
+  third attribute here is false by default, it is the order in which bubbling effect will get trigger.
+
+//Built-in Javascript
+window.open(url, "_blank","top=0,width=200,height=200");
+
+- parseInt(str), encodeURIComponent(url), decodeURIComponent(encodedUrl);
+
+- use 'encodeURIComponent() for encode ASCII characters.
+	searchTerm="?<lsfi ABC";
+	searchTerm=encodeURIComponent(searchTerm);
+
+- Math methods: floor, ceil, round, abs, sqrt, pow, PI
+
+// Date & Time
+let d=new Date("APRIL,10, 1980");
+let t=d.getTime();
+d.setFullYear(2018);
+d.setDate(25);
+d.setMonth(11);
+
+//try,catch,throw
+//Regex:
+re=new RegExp(pattern,flags);
+str.match(pattern);
+- for find&replace: str.replace(re,newString);
+- for check: re.test(str);
+- returns input as well: re.exec(str);
+
+//FileReader:
+<input type="file" multiple onchange="upFiles(this.files)">
+	*** Script ***
+var msg=document.getElementById('msg');
+
+function upFiles(files){
+    for(let i=0;i<files.length;i++){
+        var fReader=new FileReader();
+        var fileName=files[i].name;
+        fReader.readAsText(files[i]);
+        fReader.onload=function(e){
+            msg.innerHTML+='<br>'+fileName;
+            msg.innerHTML+='<br>'+e.target.result;
+        }
+    }
+}
+
+//GeoLocation:
+navigator.geolocation.getCurrentPosition(d=> console.log(d););
+
+window.onload=init;
+var m=document.getElementById('map'); //div with 100% height
+function init(){
+    navigator.geolocation.getCurrentPosition(placeMap);
+}
+
+function placeMap(data){
+    var options={
+        center: {
+            lat: data.coords.latitude,
+            lng: data.coords.longitude
+        },
+        zoom: 5
+    }
+    var map=new google.maps.Map(m,options);
+    console.dir(data);
+}
+
+//localStorage:
+- localStorage.setItem(key,value);
+- localStorage.getItem(key);
+
+-JSON.stringify(obj);
+-JSON.parse(stringifiedObj);
+
+//Session Storage:
+- sessionStorage.setItem(key,value), sessionStorage.getItem(key);
+- sessionStorage is similar to localStorage ; the difference is that while data in localStorage doesn't expire, data in sessionStorage is cleared when the page session ends. ... A page session lasts as long as the tab or the browser is open, and survives over page reloads and restores.
+
+//Canvas
+//JSON & AJAX
+- in json format keys must be in string format.
+
+let async=true;
+xHR=new XMLHttpRequest;
+xHR.open('GET','file/url',async)  args: async: true/false
+xHR.send();
+console.log(xHR);
+
+xHR.onreadystatechange=function(){
+   if(this.readyState===4 && this.status===200){
+	let obj=JSON.parse(this.responseText);
+	console.log(obj);
+   }
+}
+
+//XHR Request Sample:
+function getData(){
+    var xHR=new XMLHttpRequest();
+    xHR.onreadystatechange=function(){
+        if(this.readyState===4 && this.status===200){
+            let data=JSON.parse(this.responseText);
+            data.forEach(c=> console.log(c.name));
+        }
+    }
+
+    xHR.open('GET',"https://restcountries.eu/rest/v2/all",true);
+    xHR.responseType='json';
+    xHR.send();
+}
+
+//ES6
+- All declarations (function, var, let, const and class) are hoisted in JavaScript, while the var declarations are initialized with undefined , but let and const declarations remain uninitialized. They will only get initialized when their lexical binding (assignment) is evaluated during runtime by the JavaScript engine.
+
+- const values cannot be reassigned.
+- if an object is declared as const, it cannot be reassigned but its values can be reassigned.
+
+//default arguments in the function:
+Func(msg="default arg",b=anotherDefaultFunc(msg,"ajbk","kjfsd"));
+arguments.callee.length //expected args
+arguments.length //args available
+Func(a,b,...c) //...c for rest of the parameters, here c is an array.
+arguments.callee.name //name of the function.
+
+//Arrow Functions
+//Destructuring of the object & arrays
+let {a,b}=obj;
+let [a,b,c="default"]=arr;  //here c have a default value;
+[...arr] 
+
+// Iterators & Generators: 
+Iterators: In JavaScript an iterator is an object which defines a sequence and potentially a return value upon its termination.
+
+Specifically, an iterator is any object which implements the Iterator protocol by having a next() method that returns an object with two properties: value & done.
+Iterators are useful but they require more code to write which could get complex some times.
+Generators provides an alternatives for this, where only logic have to be written like any other common function other generator type of functionality will be handled itself. Generator are delcared with function* keyword.
+ex: function* makeRange(){
+        let iterCount=0;
+	   for(let i=0;i<20;i++){
+		iterCount++;
+		yield i;
+	}
+	return iterCount;
+    }
+
+//Set: add, delete, 
+removing duplicates from the array: return [...new Set(dupArray)];
+
+//map: used for iteration.
+//Map(HashMap):
+let newMap=new Map();
+newMap.set("key","value");
+newMap.size
+newMap.has("key");
+newMap.get("key");
+//find & findIndex:
+myArr.find(x=> x>50);
+myArr.findIndex(x => x>50);f
+Array.from(arguments); //make new array
+Array.from(mySet); //converting Set to Array;
+// convering array into iterator:
+let itr=arr.entries() //now we can do itr.next() where we have {value: "value", done: true/false};
+let arr2=[...itr]; //converting iterator back to array, but only those value will be converted to the array which are remain in iterator.
+//here arr2 will have both index and value, so arr2 will be 2d array.
+//with itr.next().value we get [index,value].
+
+arr.copyWithin(index1, index2); //index2 value will be overwrite with index1 value;
+arr.copyWithin(target, start, end); //default for end is arr.length, target is the index from where to start overwriting values;
+arr.fill("valueFilledWith");
+
+//Constructor of the class
+//Promises:
+function getData(url){
+   return new Promise(function(resp){
+	//make request here & return data
+	return response;
+   });
+}
+
+getData("https://fjksd.com/").then(resp=> console.log(resp));
+
+//Use <fieldset id="groupid"></fieldset> to group multiple radio buttons.
+

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./style.css">
+    <title>Calc</title>
+</head>
+<body>
+    <div class="bg1"></div>
+    <div class="bg2"></div>
+    <div class="container">
+        <div class="screen">
+            <div class="prev"></div>
+            <div class="ans"></div>
+        </div>
+        <div class="pad" onclick="keyPressed(event)">
+            <div class="row">
+                <div class="btn" name="%">&percnt;</div>
+                <div class="btn" name="C">C</div>
+                <div class="btn" name="/">&divide;</div>
+                <div class="btn eq" name="=">&equals;</div>
+            </div>
+            <div class="row">
+                <div class="btn" name="7">7</div>
+                <div class="btn" name="8">8</div>
+                <div class="btn" name="9">9</div>
+                <div class="btn" name="*">&lowast;</div>
+            </div>
+            <div class="row">
+                <div class="btn" name="4">4</div>
+                <div class="btn" name="5">5</div>
+                <div class="btn" name="6">6</div>
+                <div class="btn" name="-">&minus;</div>
+            </div>
+            <div class="row">
+                <div class="btn" name="1">1</div>
+                <div class="btn" name="2">2</div>
+                <div class="btn" name="3">3</div>
+                <div class="btn" name="+">&plus;</div>
+            </div>
+            <div class="row">
+                <div class="btn" name="0">0</div>
+                <div class="btn" name=".">.</div>
+                <div class="btn" name=""></div>
+                <div class="btn" name="BACKSPACE">&larr;</div>
+            </div>
+        </div>
+    </div>
+    <script src="./script.js"></script>
+</body>
+</html>

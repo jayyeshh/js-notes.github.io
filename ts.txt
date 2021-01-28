@@ -1,0 +1,139 @@
+Re: 
+- Lexical scope in ts.
+- Use Cases.
+- Dictionary Solution.
+- Unknowns & Branded Types.
+- Advanced Types.
+
+Resources:
+- https://github.com/mike-works/typescript-fundamentals
+- https://www.typescriptlang.org/docs/handbook/typescript-in-5-minutes.html
+
+topics: 
+- Intersection |
+- Union &
+- never type ( bottom type )
+- any type, unknown type (top type)
+- interface vs type
+
+interface ContactMsngr{
+    {contact: HasEmail | HasPhoneNumber, message: string} : void;
+}
+
+type ContactMsngr2{
+    contact: HasEmail | HasPhoneNumber,
+    message: string
+} => void;
+
+- construct signature:
+interface ContactConstructor{
+    new (...args: any[]): HasEmail | HasPhoneNumber;
+}
+
+- Index Signature:
+interface PhoneNumberDict {
+    [numberName: string]: undefined | {
+        areaCode: Number;
+        num: number;
+    };
+}
+
+const phoneDict: PhoneNumberDict = {
+    office: {areaCode: 321, num: 5512132},
+    home: {areaCode: 321, num: 234234}
+};
+
+//const x: NumVal = [1,2,3,1,1,[3,1,1,2]];
+type NumVal = 1 | 2 | 3 | NumArr;
+interface NumArr extends Array<NumVal> {}
+const x: NumVal = [1,2,3,1,1,[3,1,1,2]];
+
+- tests: dtslint.
+- access modifier
+- readonly
+- abstract class
+- getter & setter in js
+- @types/npm-package-name
+- (tsconfig-flag): noImplicitAny, strict, strictFunctionTypes, strictNullChecks, strictBindCallApply
+- Generics
+interface FilterFunction<T=any>{
+    (val: T) : boolean;
+}
+//here '=any' is default type, so if no type is provided it'll fall back to any.
+const stringFilter: FilterFunction<string> = val => typeof val==="string";
+stringFilter(0); //Error
+stringFilter("abc"); //Pass
+
+- Constraint with type parameters:
+function arrayToDict<T extends { id: string }>(array: T[]): {[k: string]: T}){
+    const out: { [k: string]: T }= {};
+    array.forEach(val => {
+        out[val.id]=val;
+    });
+    return out;
+}
+
+//Types parameters are associated with scope, just like function.
+
+function startTuple<T>(a: T){
+    // b & U are not accessible here.
+    return function finisihTuple<U>(b: U){
+        return [a, b] as [T, U];
+    };
+}
+const myTuple = startTuple(["first"])(42);
+
+//generic use Case: 
+interface Shape{
+    draw();
+}
+
+interface Circle extends Shape{
+    radius: number;
+}
+
+function drawShapes1<S extends Shape>(shapes: S[]){
+    shapes.foreach(s => s.draw());
+}
+
+function drawShapes2(shapes: Shape[]){
+    //Simpler, above type parameter is not necessary.
+    shapes.forEach(s => s.draw());
+}
+
+- Generic Dictionary
+- any vs unknown
+- typeGuard: typeof, instanceOf
+- Custom typeGuard: 
+function isHasEmail(x: any): x is HasEmail{
+    return typeof x.name==='string' && typeof x.email === 'string';
+}
+
+if(isHasEmail(myUnknown)){
+    //here, myUnknown is of type HasEmail.
+    console.log(myUnknown.name, myUnknown.email);
+}
+
+
+function isDefined<T>(arg: T | undefined): arg is T{
+    return typeof arg !== 'undefined';
+}
+
+const list=['a','b','c',undefined,'e'];
+const filtered=list.filter(isDefined);
+
+- any unknown can be assigned to any other unknown.
+- Unreachable errors & Exhausted cases.
+
+- keyof
+- typeof
+- infer
+- Utility types: Partial, Pick, Extract.
+- namespace
+
+- "identifiers"(i.e. var, class, func. ,interface) can be associated with three things: value, type and namespace.
+- Functions and vars are purely values. Their types may only be extracted using type queries.
+    const xx=4;
+    const yy: typeof xx = 4;
+- Interfaces are purely types.
+- Classes are both tyeps and values.

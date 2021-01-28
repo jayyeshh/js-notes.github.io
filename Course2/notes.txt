@@ -1,0 +1,298 @@
+//Pending:
+- Dice Game
+- Expense List
+- 54,
+- https://drive.google.com/drive/folders/1Z_0K_Nqw6QKxksO5pV5Q4PfHTdXW7OHB
+
+- type Coercion: js converts data type on the fly to most suitable format, like converting number to string while concatinating them using + operator.
+//execution flow:
+code -> Javascript Engine ( Parser(AST) -> Conversion to Machine Code -> Code Runs)
+
+//Execution Context: container which stores variables and in which a piece of our code is evaluated and executed.
+By Default code that is not inside any function is in Global Execution Context, In the browser that's the window object.Each function has its own execution function.
+when execution gets over of the function or when return from the function its execution context gets pop out of the execution stack.
+
+Execution Context: 
+    - Variable Object
+    - Scope chain
+    - "This" variables
+
+1. Creation Phase:
+    A) Creation of the Variable Object
+    B) Creation of the scope chain
+    C) Determine value of the 'this' variables
+
+2. Execution phase:
+    - The code of the function that generated the current execution context is ran line by line.
+=> The Variable Object: 
+- The argument object is created, containing all the args that were passed into the function.
+- Code is scanned for function declarations: for each function, a property is created in teh Variable Object, pointing to the function. -| Hoising Part
+- Code is scanned for variable declarations: for each varialble, a property is created in the Variable Object, and set to undefined.    -| Hoisting Part
+
+//Scope Chain: 
+- Lexical scoping: A function that is  lexically within another function gets access to the scope of the outer function.
+- locally declared variable will not be accessed by the parent scope.
+
+//this keyword:
+points to the function which called the method(callee function), or window object in case of global scope.
+When Regular function call happen, then this will always points to the window object.
+    ex: callthefunction(); //in this case this will point to the window object.
+
+- Event can only be proceed, when the execution stack is empty.
+
+//Javascript Prototype Chain
+- The Prototype property of an object is where we put methods and properties that we want otehr objects to inherit.
+- The Constructor's prototype property is Not the prototype of the constructor itself, it's the prototype of ALL instances that are created through it;
+- When a certain method (or property) is called, the search starts in the object itself, and if it cannot be found, the search moves on to the object's prototype.
+  This continues until the method is found : prototype chian.
+
+- All the objects are prototype of object function constructor.
+//Object Function Constructor:
+var Person=function(name,job,age){
+    this.name=name;
+    this.job=job;
+    this.age=age;
+};
+
+//Object.create
+var john=Object.create(personProto,{
+    edu: "graduate";
+});
+john.lastname='smith';
+
+var john=new Person('John',"engineer","1998"); //creating instance of the constructor;
+
+Person.prototype.calculateAge=function(){
+    console.log(2021-this.age);
+}
+
+john instanceof Person; //true
+
+- Varaibles are Primitives while variables inside objects are pointers to the address where actual data is stored.
+    so when we do:
+        b=a; it make another copy of a.
+        but if we do objb=obja; then it just create another reference to same block of memory.
+        in this case if we change any property of obja, then it gets reflects to the objb as well. same will happen if we make changes in objb;
+
+//Closures: An inner function has always access to the variable and parameters of its outer function, even after the outer function has returned.
+
+var add=function(){
+    let counter=0;
+    var plus=function(){
+        counter+=1;
+        return counter;
+    }
+    return plus;
+}
+
+here plus will have access to the counter variable even after add has been returned.
+
+//call method: 
+It is used to invoke(call) a method with an owner object as an argument.
+
+var person={
+    fullName: function(){ return this.firstName+" "+this.lastName; };
+}
+
+var person1={
+    firstName="abc",
+    lastName="def";
+}
+
+person.fullName.call(person1); //will return abc def;
+
+//call method with argument:
+person.fullName.call(person1, arg1, arg2);
+
+//apply() method:
+used to write a method that can be used to different objects.
+//Differenct between call and apply: 
+the call() method takes args separately, while the apply() method takes args as an array.
+
+var person = {
+  fullName: function(city, country) {
+    return this.firstName + " " + this.lastName + "," + city + "," + country;
+  }
+}
+var person1 = {
+  firstName:"John",
+  lastName: "Doe"
+}
+person.fullName.apply(person1, ["Oslo", "Norway"]);
+person.fullName.call(person1, "Oslo", "Norway");
+
+//bind:
+The bind() method creates a new function that, 
+when called, has its this keyword set to the 
+provided value, with a given sequence of arguments 
+preceding any provided when the new function is 
+called.
+
+this.x = 9;    // 'this' refers to global 'window' object here in a browser
+const module = {
+  x: 81,
+  getX: function() { return this.x; }
+};
+
+module.getX();
+//  returns 81
+
+const retrieveX = module.getX;
+retrieveX();
+//  returns 9; the function gets invoked at the global scope
+
+//  Create a new function with 'this' bound to module
+//  New programmers might confuse the
+//  global variable 'x' with module's property 'x'
+const boundGetX = retrieveX.bind(module);
+boundGetX();
+//  returns 81
+
+- bind can also be used for preset args.
+var john={
+    name: 'john',
+    presentation: function(style,timeofDay){
+        if(style==="friendly") return "lfjs...";
+        else return "lfjsfsdf...";
+    }
+}
+
+var johnFriendly=john.presentation.bind(john, 'friendly);
+
+johnFriendly('morning');
+johnFriendly('night');
+
+var emily={
+    name: 'emily';
+}
+
+var emilyFormal=john.presentation.bind(emily, 'formal');
+emilyFormal('afternoon');
+
+ref: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_objects/Function/bind
+
+
+Javascript Data Types: 
+ 6 are primitives: undefined, boolean, Number, String, BigInt, Symbol
+ Structure Types: Object, function
+ Structural Root Primitive: null
+
+- insertAdjacentHTML(): It does not reparse the element it is being used on,
+ and thus it does not corrupt the existing elements inside that element. 
+ This avoids the extra step of serialization, making it much faster than direct 
+ innerHTML manipulation.
+
+element.insertAdjacentHTML(position, text);
+Pos: 
+<!-- beforebegin -->
+<p>
+  <!-- afterbegin -->
+  foo
+  <!-- beforeend -->
+</p>
+<!-- afterend -->
+
+- document.write(text); & document.writeln(text);
+
+- Array.prototype.slice.call(fields);
+
+arr.forEach(function(currentValue, index, entireArray){});
+
+//querySelectorAll();
+AND (both classes)
+
+var list = document.getElementsByClassName("class1 class2");
+var list = document.querySelectorAll(".class1.class2");
+OR (at least one class)
+
+var list = document.querySelectorAll(".class1,.class2");
+XOR (one class but not the other)
+
+var list = document.querySelectorAll(".class1:not(.class2),.class2:not(.class1)");
+NAND (not both classes)
+
+var list = document.querySelectorAll(":not(.class1),:not(.class2)");
+NOR (not any of the two classes)
+
+var list = document.querySelectorAll(":not(.class1):not(.class2)");
+
+- parseFloat("23.22");
+
+- Arrow Functions shares lexical of 'this' keyword of its surrounding or parent function.
+- With arrow functions the this keyword always represents the object that defined the arrow function.
+
+function Person(name){
+    this.name=name;
+}
+
+//ES5
+Person.prototype.myFriends1=function(friends){
+    var arr=friends.map(function(el){
+        return this.name + ' is friend with '+el;
+    }.bind(this));
+
+    console.log(arr);
+}
+
+var friends=['bob','abc','dfek'];
+new Person('John').myFriends1(friends);
+
+//ES6
+Person.prototype.myFriends2=function(friends){
+    var arr=friends.map(el=> return `${this.name} is friend with ${el}`;);
+    console.log(arr);
+}
+
+new Person('mike').myFriends2(friends);
+
+- arr.findIndex(curr=> curr>=18);
+
+//Classes & static methods of the class.
+
+- Array.of(1,2); //create an array of given values.
+- Array.from(args);  //works with generators and iterators too.
+    ex: let numbers={
+        *[Symbol.iterator](){
+            yield 1;
+            yield 2;
+            yield 3;
+        }}
+
+        let numbers2=Array.from(numbers, (value)=> value + 1);
+
+- arr.fill(valueToBeFilledWith, startPos, endPos);
+- arr.copyWithin(indexStartReplacingFrom, indexStartReplacingWith, endIndex);
+
+let x=Promise.all([p1,p2,p3]) //when all promises resolves.
+let y=Promise.race([p1,p2,p3]) //returns as soon as any of the promise gets resolve or get rejected.
+- in race, if first promise gets resolved it will not check for others,
+same will happen if first get rejected.
+x.then(resp=> ...);
+x.catch(resp=> ...);
+y.then(resp=> ...);
+y.catch(resp=> ...);
+
+//Prototype Chain in javascript: 
+- The methods and properties are not copied from one object to another in the prototype chain. 
+  They are accessed by walking up the chain
+
+
+
+//Library Project: 
+UI: 
+    1. https://dribbble.com/shots/1438183-Museo-Desktop-App-v1?utm_source=Clipboard_Shot&utm_campaign=novagraphix&utm_content=Museo%E2%84%A2%20-%20Desktop%20App%20v1&utm_medium=Social_Share
+    2. https://dribbble.com/shots/1234507-Library-eBooks-UI
+    3. https://dribbble.com/shots/7101349-Book-Store-App
+    4. https://dribbble.com/shots/14118636-Book-Store-App
+    5. https://dribbble.com/shots/12129668-E-Book-Mobile-App-UX-UI
+    6. https://dribbble.com/shots/6494539-EBook-Application-01
+    7. https://dribbble.com/shots/6945954-Books-Store-Mobile-App
+    8. https://dribbble.com/shots/13940423-SFU-Motion
+
+Illustrations/Vectors: 
+    1. https://designs.ai/graphicmaker/
+    2. https://www.svgrepo.com/
+    3. https://www.pixeltrue.com/free-illustrations
+    4. https://www.manypixels.co/gallery/
+    5. https://artvee.com/?
+

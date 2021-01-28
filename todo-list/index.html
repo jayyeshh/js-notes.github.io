@@ -1,0 +1,17 @@
+<html>
+    <head>
+        <title>ToDoList </title>
+        <link rel="stylesheet" href="./style.css">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+        <link rel="icon" href="./todos.svg" type="image/icon type">
+    </head>
+    <body>
+        <div class="container">
+            <form class="form" onsubmit="itemSubmission(event)">
+                <input type="text" class="inp">
+                <input type="submit" value="Add" class="submitBtn">
+            </form>
+            <ul class="list" ondblclick="edit(event)" oncontextmenu="edit(event)"></ul>
+        </div>
+        <script src="./script.js"></script>
+</html>

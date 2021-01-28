@@ -1,0 +1,16 @@
+data=[{
+        "name": "abc",
+        "status": "active",
+        "edu": "graduate"
+    },
+    {
+        "name": "def",
+        "status": "inactive",
+        "edu": "graduate"
+    },
+    {
+        "name": "ghi",
+        "status": "active",
+        "edu": "non-graduate"
+    }
+];

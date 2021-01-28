@@ -1,0 +1,19 @@
+Scalling: 
+1. Buy bigger machines - vertical scaling.
+2. Buy more machine - horizontal scaling
+
+horizontal scaling: 
+- load balancing required.
+- Resilient
+    a system is resilient if it continues to carry out its mission in the face of adversity. ( caching )
+- Network calls ( RPC )
+- Data Inconsistency
+- Scale well as user increases.
+
+vertical scaling: 
+- Load balancing N/A
+- Single Point of failure
+- Inter Process Communication
+- Consistent
+- Hardware limit.
+

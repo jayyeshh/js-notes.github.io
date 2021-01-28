@@ -1,0 +1,215 @@
+=> lifecycle method: 
+    getDerivedStateFromProps(props, state): 
+    return object to update or null to make no update.
+    - this method is called before the component is rendered to the DOM on the initial mount.
+
+    getSnapshotBeforeUpdate:
+    stores the previous version of the application before uploading the changes.
+    - In the updating component phase, the getSnapshotBeforeUpdate lifecycle method is called right after the render method.
+
+    getSnapshotBeforeUpdate(prevProps, prevState) {
+        return value || null;
+    }
+
+    - Whatever value is returned from the getSnapshotBeforeUpdate lifecycle method is passed as the third argument to the componentDidUpdate method. Let’s call the returned value from getSnapshotBeforeUpdate, snapshot.
+    The componentDidUpdate lifecycle method is invoked after the getSnapshotBeforeUpdate.
+
+  common workflow:
+```
+  chatThreadRef=ReactDOM.createRef();
+
+  getSnapshotBeforeUpdate (prevProps, prevState) {
+    if (this.state.chatList > prevState.chatList) {
+      const chatThreadRef = this.chatThreadRef.current
+      return chatThreadRef.scrollHeight - chatThreadRef.scrollTop
+    }
+    return null
+  }
+
+  componentDidUpdate (prevProps, prevState, snapshot) {
+    if (snapshot !== null) {
+      const chatThreadRef = this.chatThreadRef.current
+      chatThreadRef.scrollTop = chatThreadRef.scrollHeight - snapshot
+    }
+  }
+  
+  
+  <ul className="chat-thread" ref={this.chatThreadRef}>
+   ...
+  </ul>
+```
+
+getDerivedStateFromError: 
+- Whenever an error is thrown in a descendant component, this method is called first, and the error thrown is passed as an argument.
+
+Whatever value is returned from this method is used to update the state of the component.
+
+componentDidCatch: 
+- The componentDidCatch method is called after an error in a descendant component is thrown. Apart from the error thrown, it is passed one more argument which represents more information about the error.
+componentDidCatch(error, info){}
+
+-Unlike getDerivedStateFromError, the componentDidCatch allows for side-effects, error or info can be send to external logging service.
+
+```
+import React, { Component } from "react";
+class ErrorBoundary extends Component {
+  state = { hasError: false };
+  static getDerivedStateFromError(error) {
+    console.log(`Error log from getDerivedStateFromError: ${error}`);
+    return { hasError: true };
+  }
+  componentDidCatch(error, info) {
+    console.log(`Error log from componentDidCatch: ${error}`);
+    console.log(info);
+  }
+  render() {
+    return null
+  }
+}
+export default ErrorBoundary;
+```
+
+lifecycle methods not used anymore: componentWillMount, componentWillUpdate, componentWillReceiveProps
+new Lifecycle methods:
+    - static getDerivedStateFromProps
+    - getDerivedStateFromError
+    - getDerivedStateFromError
+    - componentDidCatch
+
+=> Context: Provider, Consumer
+- every consumer is re-rendered when values within a Provider change, so split related data info in different context objects for reusability and performance.
+
+- ContextType : to avoid nested context, set context as context type of the class.
+className.contextType=nameOfTheContext;
+Benny.contextType=BennyPositionContext;
+- After setting the contextType property, context values can be consume by using `this.context`.
+
+=> React.meme: 
+- If your component renders the same result given the same props, you can wrap it in a call to React.memo for a performance boost in some cases by memoizing the result. This means that React will skip rendering the component, and reuse the last rendered result.
+
+- React.memo does a shallow comparison of props. By implication, in case of nested props objects, the comparision will fail.
+
+To handle such cases, React.memo takes in a second argument, an equalityCheck function.
+- For more performance boost use lodash's isEqual utility method.
+```
+import { isEqual } from 'lodash'
+function equalityCheck(prevProps, nextProps) {
+	return isEqual(prevProps, nextProps) 
+} 
+
+export default memo(function myComponent(props){
+    return (<div>Something to Render</div>, equalityCheck);
+})
+```
+
+React DevTools: Profiler & Commit.
+=> Profile: for performance measurement of React app.
+
+Conceptually, React does work in two phases:
+
+The render phase where components are rendered and the virtual DOM diffed.
+
+The commit phase where actual changes in the virtual DOM are committed to the DOM.
+
+=> Lazy Loading: 
+
+=> Dynamically Loading A Module:
+```
+import('path-to-awesome-module')
+	.then(module => {
+     /* do something with the module here e.g. module.default() to invoke the default export of the module.
+     */
+ })
+```
+
+=> React.lazy: dynamic import call.
+```
+const Scene = React.lazy(() => import('./Scene'));
+```
+
+- Fetching from the server introduces some latency. To handle this, wrap the Scene component in a Suspense component to show a fallback for when the resource is being fetched.
+
+```
+<Suspense fallback="<div>loading ...</div>">
+    <Scene />
+</Suspense>
+```
+
+- In case of multiple lazy-loaded component, wrap them in single or multiple `Suspense` components, depending on specific use case.
+
+- Currently, React.lazy doesn’t support named exports.
+- A workaround would be to create some other module that exports one of the components as a default.
+
+- lazy load the Route components so that they are only fetched when the user hits the associated routes.
+```
+const App = () => (
+  <Router>
+    <Suspense fallback={<div>Loading...</div>}>
+      <Switch>
+        <Route exact path="/" component={Home}/>
+        <Route path="/about" component={About}/>
+      </Switch>
+    </Suspense>
+  </Router>
+);
+```
+
+- React.lazy and Suspense do not support server-side rendering yet.
+
+- useState(), 
+- useEffect(): By default, the useEffect function will be called after every render.
+- If you pass in an empty array, the effect function is run only on the mount — subsequent re-renders don’t trigger the effect function.
+- if value is passed as second parameter in useEffect(), then the effect function will run on the mount, and anytime the values passed are updated, the effect call will re-run.
+- If a function is returned within effect function, it will be invoked when the component unmounts. This is the perfect place to cancel subscriptions.
+```
+useEffect(() => {
+    const clicked = () => console.log('window clicked');
+    window.addEventListener('click', clicked);
+
+    return () => {
+      window.removeEventListener('click', clicked)
+    }
+ }, []);
+ ```
+
+=> There are two rules to adhere to while using hooks.
+
+- Only call hooks at the Top Level, i.e., not within conditionals, loops, or nested functions.
+- Only call hooks from React functions, i.e., functional components and custom hooks.
+
+=> React.PureComponent are faster than stateless functional component.
+This is because PureComponent changes the life-cycle method shouldComponentUpdate and adds some logic to automatically check whether a re-render is required for the component. This allows a PureComponent to call the method render only if it detects changes in state or props.
+
+Pending: 
+- https://react-hooks-cheatsheet.com/
+- https://webpack.js.org/guides/code-splitting/
+
+//talks notes:
+=> Accessiblity (A11y): 
+Tools to check A11y: Lighthouse audit, Wave evalution tool.
+              At development phase: Web Assembly, eslint-plugin-jsx-a11y, webhint
+
+prefer-reduced-motion: to turn off/on media queries.
+
+
+//decentralization:
+terms: 
+resources: 
+  - https://github.com/aeschylus
+  - https://github.com/edsilv
+  - https://discuss.ipfs.io/t/video-music-streaming/528
+  - https://uncensorablepublishing.com/
+  - https://p2pvps.org/
+  - https://github.com/christroutner
+  - https://github.com/Permissionless-Software-Foundation/chat-bootstrap-server
+  - https://hackernoon.com/ten-terrible-attempts-to-make-the-inter-planetary-file-system-human-friendly-e4e95df0c6fa
+  - https://tarunbatra.com/blog/decentralization/Deploy-your-website-on-IPFS-Why-and-How/
+  - https://docs.ipfs.io/concepts/ipfs-gateway/#limitations-and-potential-workarounds
+  - https://blog.stacktical.com/ipfs/gateway/dapp/2019/09/21/ipfs-server-google-cloud-platform.html
+  - https://medium.com/pinata/dedicated-ipfs-networks-c692d53f938d
+
+projects: 
+  - https://github.com/miguelfreitas/twister-core
+  - https://github.com/dakhnod/Meshenger/issues
+  - https://github.com/ipfs/go-ipfs/blob/master/docs/experimental-features.md#private-networks
+

@@ -1,0 +1,123 @@
+body{
+    box-sizing: border-box;
+    background: rgb(2,0,36);
+    background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(9,74,121,1) 57%, rgba(0,212,255,1) 100%);
+    transition: all .6s ease-in-out;
+    color: white;
+    padding: 0;
+    margin: 0;
+}
+
+.container{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    margin: 0;
+    padding: 0;
+}
+
+.item{
+    display: flex;
+    justify-content: space-between;
+    margin: 4px 1px;
+    cursor: default;
+    color: gray;
+    transition: all .1s ease-in-out;
+}
+
+.item:hover{
+    color: white;
+}
+.inp{
+    width: 22rem;
+    height: 2rem;
+    padding: .1rem .6rem;
+    color: black;
+    font-size: 1.6rem;
+    transition: all .1s ease-in-out;
+    background: #dbd7d2;
+    border: none;
+    outline: none;
+}
+
+.submitBtn{
+    height: 1.5rem;
+    width: 3rem;
+    border: none;
+    outline: none;
+    background-color: #778899;
+    width: 5rem;
+    height: 2rem;
+    cursor: pointer;
+    color: white;
+    transition: all .1s ease-in-out;
+}
+
+.submitBtn:hover{
+    background: rgb(63, 54, 54);
+    color: white;
+}
+
+.list{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 28rem;
+    overflow-y: scroll;
+    overflow-wrap: break-word;
+    scroll-behavior: smooth;
+}
+
+.list::-webkit-scrollbar {
+    display: none;
+  }
+
+.del{
+    background: none;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    transition: all .1s ease-in-out;
+    color: red;
+    font-size: 2rem;
+}
+
+.del:hover{
+    transform: scale(1.2);
+}
+
+.form{
+    background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(9,74,121,1) 57%, rgba(0,212,255,1) 100%);
+    width: 100vw;
+    height: 1rem;
+    display: flex;
+    flex-direction: row;
+    margin: 0;
+    padding: 3rem;
+    border: none;
+    border-bottom: 1px solid black;
+    justify-content: center;
+    position: relative;
+}
+
+.itemName{
+    width: 24rem;
+    font-size: 1.6rem;
+    transition: all .1s ease-in-out;
+}
+
+.editor{
+    width: 100%;
+    font-size: 2rem;
+    padding: .1rem .6rem;
+    background: #b5e8e5;
+    border: none;
+    outline: none;
+    transition: all .1s ease-in-out;
+}
+
+.inputError{
+    border: 2px solid red;
+}
