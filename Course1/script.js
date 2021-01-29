@@ -74,7 +74,7 @@
 //     }
 // }
 
-var output=document.getElementById("output");
+// var output=document.getElementById("output");
 
 // window.onload=setTimeout(updateWelcomeMsg, 2000);
 

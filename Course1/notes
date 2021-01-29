@@ -13,7 +13,7 @@ Iterators & Generators.
 327
 
 //JS
-javascript is not a programming not, it is actually a script language.
+javascript is not a programming language, it is actually a scripting language.
 because it uses the browser to do the work.
 - adding inline, internal & external javascript.
 - document.write
@@ -305,7 +305,7 @@ newMap.has("key");
 newMap.get("key");
 //find & findIndex:
 myArr.find(x=> x>50);
-myArr.findIndex(x => x>50);f
+myArr.findIndex(x => x>50);
 Array.from(arguments); //make new array
 Array.from(mySet); //converting Set to Array;
 // convering array into iterator:
